@@ -16,6 +16,10 @@ return {
       "typescriptreact",
     }
 
+    -- FOR WINDOWS OS --- need to install C compilers clang , mingw , whatever --- can check in notion
+    -- local treesitter_install = require("nvim-treesitter.install")
+    -- treesitter_install.compilers = { "clang", "gcc" }
+
     treesitter.setup({
       highlight = {
         enable = true,
