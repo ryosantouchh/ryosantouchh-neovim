@@ -29,7 +29,7 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
-opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir" -- FOR WINDOWS -- need to comment this line
 opt.undofile = true
 
 opt.hlsearch = true
