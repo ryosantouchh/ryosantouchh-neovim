@@ -3,9 +3,12 @@ return {
   branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    -- for mac , window need to comment it all
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-tree/nvim-web-devicons",
   },
+
+  -- for mac , window need to comment config below and use built-in telescope instead
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
