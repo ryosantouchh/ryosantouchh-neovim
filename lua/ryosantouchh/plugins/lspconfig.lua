@@ -38,7 +38,8 @@ return {
         local opts = { buffer = bufnr }
 
         lsp_zero.default_keymaps(opts)
-        vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<cr>", opts)
+        vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<cr>")
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts, {silent = true, noremap = true})
         -- vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
         vim.keymap.set("n", "gx", "<cmd>Lspsaga code_action<cr>", {silent = true, noremap = true})
         vim.keymap.set("n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", {silent = true, noremap = true})
@@ -109,6 +110,9 @@ return {
           -- sql
           "sqlls",
           "sqls",
+
+          -- astro
+          "astro",
         },
         handlers = {
           lsp_zero.default_setup,
