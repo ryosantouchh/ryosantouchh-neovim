@@ -12,7 +12,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
-    lazy = false,
+    lazy = true,
     config = true,
   },
   {
@@ -74,7 +74,7 @@ return {
       mason_lspconfig.setup({
         ensure_installed = {
           -- golang
-          -- "gopls",
+          "gopls",
           -- "golangci_lint_ls",
 
           -- typescript/javascript
@@ -114,6 +114,7 @@ return {
           -- astro
           "astro",
         },
+        automatic_installation = true,
         handlers = {
           lsp_zero.default_setup,
           lua_ls = function()

@@ -37,15 +37,15 @@ return {
           action = "Telescope find_files cwd=",
         },
         mru = { limit = 10, icon = "Recent Files", label = "", cwd_only = false },
-        -- shortcut = {
-        --   {
-        --     icon = " ",
-        --     icon_hl = "@variable",
-        --     desc = "Files",
-        --     group = "Label",
-        --     action = "Telescope find_files",
-        --     key = "f",
-        --   },
+        shortcut = {
+          {
+            -- icon = " ",
+            -- icon_hl = "@variable",
+            desc = "I have no enemies",
+            group = "Label",
+            -- action = "Telescope find_files",
+            -- key = "f",
+          },
         --   {
         --     desc = " Apps",
         --     group = "DiagnosticHint",
@@ -58,7 +58,7 @@ return {
         --     action = "Telescope dotfiles",
         --     key = "d",
         --   },
-        -- },
+        },
       },
 
       -- config
