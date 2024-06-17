@@ -16,11 +16,12 @@ return {
 
     -- see below for full list of optional dependencies 👇
   },
+  -- note:: need to put the path of vault below to activate the plugin for that path
   opts = {
     workspaces = {
       {
         name = "ryosantouchh-vault",
-        path = "~/ryosantouchh-obsidian",
+        path = "~/hyperbolic-time-chamber/ryosantouchh-obsidian",
       },
     },
   },

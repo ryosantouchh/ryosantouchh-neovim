@@ -71,6 +71,17 @@ return {
           ), 
       })
 
+      lspconfig.golangci_lint_ls.setup({
+        filetypes = { "go", "gomod" },
+      })
+
+      lspconfig.solidity.setup({
+        cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
+        filetypes = { 'solidity' },
+        root_dir = lspconfig.util.find_git_ancestor,
+        single_file_support = true,
+      })
+
       mason_lspconfig.setup({
         ensure_installed = {
           -- golang
@@ -113,6 +124,9 @@ return {
 
           -- astro
           "astro",
+
+
+          -- solidity
         },
         automatic_installation = true,
         handlers = {
