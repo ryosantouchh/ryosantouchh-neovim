@@ -22,14 +22,15 @@ return {
     dependencies = {
       { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason-lspconfig.nvim" },
-      { "kkharji/lspsaga.nvim" },
+      -- { "kkharji/lspsaga.nvim" },
+      -- { "nvimdev/lspsaga.nvim" },
     },
     config = function()
       -- This is where all the LSP shenanigans will live
       local lsp_zero = require("lsp-zero")
       local mason_lspconfig = require("mason-lspconfig")
       local lspconfig = require("lspconfig")
-      local lspsaga = require("lspsaga")
+      -- local lspsaga = require("lspsaga")
       lsp_zero.extend_lspconfig()
 
       lsp_zero.on_attach(function(client, bufnr)
@@ -41,11 +42,11 @@ return {
         vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<cr>")
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts, {silent = true, noremap = true})
         vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+        vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
+        vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
         -- vim.keymap.set("n", "gx", "<cmd>Lspsaga code_action<cr>", {silent = true, noremap = true})
         -- vim.keymap.set("n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", {silent = true, noremap = true})
         -- vim.keymap.set("n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", {silent = true, noremap = true})
-        vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
-        vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
 
         lsp_zero.buffer_autoformat()
       end)
