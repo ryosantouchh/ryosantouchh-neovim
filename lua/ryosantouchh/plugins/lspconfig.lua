@@ -33,6 +33,8 @@ return {
       -- local lspsaga = require("lspsaga")
       lsp_zero.extend_lspconfig()
 
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
       lsp_zero.on_attach(function(client, bufnr)
         -- see :help lsp-zero-keybindings
         -- to learn the available actions
@@ -59,7 +61,7 @@ return {
         info = "»",
       })
 
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         root_dir = lspconfig.util.root_pattern(
           '.eslintrc',
           '.eslintrc.js',
@@ -68,8 +70,26 @@ return {
           '.eslintrc.yml',
           '.eslintrc.json'
             -- Disabled to prevent "No ESLint configuration found" exceptions
-            -- 'package.json',
+          --'package.json',
           ), 
+      })
+
+       lspconfig.dcmls.setup({
+        	capabilities = capabilities,
+        	cmd = {
+        		"dcm",
+        		"start-server",
+        	},
+        	filetypes = { "dart", "yaml" },
+        })
+
+      lspconfig.dartls.setup({
+        capabilities = capabilities,
+        cmd = { "dart", "language-server", "--protocol=lsp" },
+      })
+
+      lspconfig.rust_analyzer.setup({
+        capabilities = capabilities,
       })
 
       lspconfig.golangci_lint_ls.setup({
@@ -87,41 +107,47 @@ return {
         ensure_installed = {
           -- golang
           "gopls",
-          -- "golangci_lint_ls",
+          "golangci_lint_ls",
 
           -- typescript/javascript
-          "tsserver",
           "vtsls",
           "biome",
           "quick_lint_js",
 
           -- frontend core
+          "ts_ls",
           "html",
           "cssls",
           "cssmodules_ls",
           "unocss",
-          "tailwindcss",
+          -- "tailwindcss",
+          
+          "rust_analyzer",
 
           -- docker
           "dockerls",
           "docker_compose_language_service",
 
+          -- dart
+          -- "ast_grep",
+
           "eslint",
+          -- "eslint_d",
 
           -- haskell
-          "hls",
+          -- "hls",
 
           -- openapi/yaml
-          "spectral",
+          -- "spectral",
           "vacuum",
-          "hydra_lsp",
+          -- "hydra_lsp",
           "yamlls",
 
           "prismals", -- prisma
 
           -- sql
-          "sqlls",
-          "sqls",
+          -- "sqlls",
+          -- "sqls",
 
           -- astro
           "astro",
@@ -139,5 +165,12 @@ return {
         },
       })
     end,
+  },
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end
   },
 }
