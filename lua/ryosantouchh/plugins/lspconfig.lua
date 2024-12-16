@@ -59,7 +59,7 @@ return {
         info = "»",
       })
 
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         root_dir = lspconfig.util.root_pattern(
           '.eslintrc',
           '.eslintrc.js',
@@ -90,7 +90,7 @@ return {
           -- "golangci_lint_ls",
 
           -- typescript/javascript
-          "tsserver",
+          "ts_ls",
           "vtsls",
           "biome",
           "quick_lint_js",
@@ -107,6 +107,7 @@ return {
           "docker_compose_language_service",
 
           "eslint",
+          -- "eslint_d",
 
           -- haskell
           "hls",
