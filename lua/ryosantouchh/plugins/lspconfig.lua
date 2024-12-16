@@ -72,6 +72,24 @@ return {
           ), 
       })
 
+       lspconfig.dcmls.setup({
+        	capabilities = capabilities,
+        	cmd = {
+        		"dcm",
+        		"start-server",
+        	},
+        	filetypes = { "dart", "yaml" },
+        })
+
+      lspconfig.dartls.setup({
+        capabilities = capabilities,
+        cmd = { "dart", "language-server", "--protocol=lsp" },
+      })
+
+      lspconfig.rust_analyzer.setup({
+        capabilities = capabilities,
+      })
+
       lspconfig.golangci_lint_ls.setup({
         filetypes = { "go", "gomod" },
       })
@@ -101,6 +119,8 @@ return {
           "cssmodules_ls",
           "unocss",
           "tailwindcss",
+
+          "rust_analyzer",
 
           -- docker
           "dockerls",
@@ -140,5 +160,12 @@ return {
         },
       })
     end,
+  },
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end
   },
 }

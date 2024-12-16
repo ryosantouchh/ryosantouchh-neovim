@@ -41,7 +41,7 @@ return {
           {
             -- icon = " ",
             -- icon_hl = "@variable",
-            desc = "I have no enemies",
+            desc = "i have no enemies",
             group = "Label",
             -- action = "Telescope find_files",
             -- key = "f",
