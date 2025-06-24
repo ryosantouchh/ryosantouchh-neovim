@@ -10,6 +10,9 @@ opt.autoindent = true
 
 -- line wrapping
 opt.wrap = false
+-- opt.linebreak = true
+-- opt.textwidth=80
+-- opt.wrapmargin=2
 
 -- searching
 opt.ignorecase = true -- ignore case

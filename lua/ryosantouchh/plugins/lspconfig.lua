@@ -24,6 +24,7 @@ return {
       { "williamboman/mason-lspconfig.nvim" },
       -- { "kkharji/lspsaga.nvim" },
       -- { "nvimdev/lspsaga.nvim" },
+      { "simrat39/rust-tools.nvim" }
     },
     config = function()
       -- This is where all the LSP shenanigans will live
@@ -161,11 +162,16 @@ return {
       })
     end,
   },
+  -- {
+  --   "rust-lang/rust.vim",
+  --   ft = "rust",
+  --   init = function()
+  --     vim.g.rustfmt_autosave = 1
+  --   end
+  -- },
   {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
-    end
+    "mrcjkb/rustaceanvim",
+    version = '^5',
+    lazy = true,
   },
 }

@@ -33,8 +33,8 @@ return {
         end,
       },
       mapping = cmp.mapping.preset.insert({
-        -- ["<S-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-        -- ["<S-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+        ["<S-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+        ["<S-j>"] = cmp.mapping.select_next_item(), -- next suggestion
         ["<C-b>"] = cmp_action.luasnip_jump_forward(),
         ["<C-f>"] = cmp_action.luasnip_jump_backward(),
         ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
