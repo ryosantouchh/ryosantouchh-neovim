@@ -6,7 +6,7 @@
 --    "VonHeikemen/lsp-zero.nvim",
 --  },
 --  config = function()
---    -- import mason
+--    ---- import mason
 --    local mason = require("mason")
 --    local lsp_zero = require("lsp-zero")
 --
