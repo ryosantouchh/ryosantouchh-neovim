@@ -24,6 +24,7 @@ return {
       right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
       diagnostics = "nvim_lsp",
       always_show_bufferline = true,
+      show_buffer_icons = true,
     },
   },
   config = function(_, opts)

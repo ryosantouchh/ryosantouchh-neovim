@@ -131,19 +131,19 @@ return {
           -- "eslint_d",
 
           -- haskell
-          "hls",
+          -- "hls",
 
           -- openapi/yaml
           "spectral",
           "vacuum",
-          "hydra_lsp",
+          -- "hydra_lsp",
           "yamlls",
 
           "prismals", -- prisma
 
           -- sql
           "sqlls",
-          "sqls",
+          -- "sqls",
 
           -- astro
           "astro",
