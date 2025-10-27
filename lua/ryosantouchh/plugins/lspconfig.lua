@@ -60,7 +60,7 @@ return {
         info = "»",
       })
 
-      lspconfig.ts_ls.setup({
+      vim.lsp.config("ts_ls", {
         root_dir = lspconfig.util.root_pattern(
           '.eslintrc',
           '.eslintrc.js',
@@ -73,34 +73,77 @@ return {
           ), 
       })
 
-       lspconfig.dcmls.setup({
-        	capabilities = capabilities,
-        	cmd = {
-        		"dcm",
-        		"start-server",
-        	},
-        	filetypes = { "dart", "yaml" },
-        })
+      -- lspconfig.ts_ls.setup({
+      --   root_dir = lspconfig.util.root_pattern(
+      --     '.eslintrc',
+      --     '.eslintrc.js',
+      --     '.eslintrc.cjs',
+      --     '.eslintrc.yaml',
+      --     '.eslintrc.yml',
+      --     '.eslintrc.json'
+      --       -- Disabled to prevent "No ESLint configuration found" exceptions
+      --       -- 'package.json',
+      --     ), 
+      -- })
+      --
+      
+      vim.lsp.config("dcmls", {
+       	capabilities = capabilities,
+       	cmd = {
+       		"dcm",
+       		"start-server",
+       	},
+       	filetypes = { "dart", "yaml" },
+      })
 
-      lspconfig.dartls.setup({
+      -- lspconfig.dcmls.setup({
+      --  	capabilities = capabilities,
+      --  	cmd = {
+      --  		"dcm",
+      --  		"start-server",
+      --  	},
+      --  	filetypes = { "dart", "yaml" },
+      -- })
+
+      vim.lsp.config("dartls", {
         capabilities = capabilities,
         cmd = { "dart", "language-server", "--protocol=lsp" },
       })
 
-      lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
+      -- lspconfig.dartls.setup({
+      --   capabilities = capabilities,
+      --   cmd = { "dart", "language-server", "--protocol=lsp" },
+      -- })
+
+      vim.lsp.config("rust_analyzer", {
+       	capabilities = capabilities,
       })
 
-      lspconfig.golangci_lint_ls.setup({
+      -- lspconfig.rust_analyzer.setup({
+      --   capabilities = capabilities,
+      -- })
+
+      vim.lsp.config("golangci_lint_ls", {
         filetypes = { "go", "gomod" },
       })
 
-      lspconfig.solidity.setup({
+      -- lspconfig.golangci_lint_ls.setup({
+      --   filetypes = { "go", "gomod" },
+      -- })
+
+      vim.lsp.config("solidity", {
         cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
         filetypes = { 'solidity' },
         root_dir = lspconfig.util.find_git_ancestor,
         single_file_support = true,
       })
+
+      -- lspconfig.solidity.setup({
+      --   cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
+      --   filetypes = { 'solidity' },
+      --   root_dir = lspconfig.util.find_git_ancestor,
+      --   single_file_support = true,
+      -- })
 
       mason_lspconfig.setup({
         ensure_installed = {
