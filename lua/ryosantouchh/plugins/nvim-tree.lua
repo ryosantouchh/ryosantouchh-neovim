@@ -12,6 +12,7 @@ return {
 
     -- color for arrows in tree to lightblue
     vim.cmd([[ highlight NvimTreeIndentMarker guifg=#3FC5FF ]])
+    -- vim.cmd([[ highlight NvimTreeIndentMarker guifg=#000000 ]])
 
     -- config nvim-tree here
     nvimtree.setup({

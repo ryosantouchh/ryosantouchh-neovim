@@ -127,6 +127,12 @@ return {
         filetypes = { "go", "gomod" },
       })
 
+      vim.lsp.config("ruby_lsp", {
+        filetypes = { "ruby", "eruby" },
+        formatter = "auto"
+      })
+
+
       -- lspconfig.golangci_lint_ls.setup({
       --   filetypes = { "go", "gomod" },
       -- })
