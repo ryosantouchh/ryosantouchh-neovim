@@ -3,7 +3,10 @@ return {
   build = ':Cord update',
   opts = {
     timestamp = {
-      enabled = false,
+      enabled = true,
+      reset_on_change = false,
+      reset_on_idle = false,
+      shared = true,
     },
     text = {
       editing = function(opts) return "Cooking " .. opts.filename end,
