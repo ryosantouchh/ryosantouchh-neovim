@@ -8,6 +8,10 @@ return {
       reset_on_idle = false,
       shared = true,
     },
+    display = {
+      theme = "atom",
+      flavor = "dark",
+    },
     text = {
       editing = function(opts) return "Cooking " .. opts.filename end,
       workspace = function() return nil end,
