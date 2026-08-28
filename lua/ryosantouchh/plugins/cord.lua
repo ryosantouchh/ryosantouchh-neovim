@@ -8,6 +8,9 @@ return {
       reset_on_idle = false,
       shared = true,
     },
+    idle = {
+      enabled = false,
+    },
     display = {
       theme = "atom",
       flavor = "dark",
