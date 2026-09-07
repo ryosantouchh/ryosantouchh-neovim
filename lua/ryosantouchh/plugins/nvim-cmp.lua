@@ -30,7 +30,7 @@ return {
 
     completion = {
       list = {
-        selection = { preselect = false, auto_insert = false },
+        selection = { preselect = false, auto_insert = true },
         max_items = 50,
       },
       menu = {
