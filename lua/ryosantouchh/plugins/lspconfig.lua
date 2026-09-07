@@ -169,7 +169,7 @@ return {
       local ensure_installed = {
         -- "gopls",
         "terraformls",
-        "ts_ls",
+        -- "ts_ls",
         "vtsls",
         "biome",
         "quick_lint_js",
