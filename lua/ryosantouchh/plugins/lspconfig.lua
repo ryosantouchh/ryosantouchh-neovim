@@ -9,7 +9,7 @@ return {
     cmd = "LspInfo",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
+      -- { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason-lspconfig.nvim" },
       { "simrat39/rust-tools.nvim" },
     },
@@ -18,7 +18,8 @@ return {
       local mason_lspconfig = require("mason-lspconfig")
 
       -- capabilities: tell servers we support nvim-cmp completion
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
       -- Diagnostic signs (replaces lsp_zero.set_sign_icons)
       local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "»" }
@@ -65,15 +66,36 @@ return {
       -- Per-server config overrides
       vim.lsp.config("*", { capabilities = capabilities })
 
-      vim.lsp.config("ts_ls", {
-        root_dir = lspconfig.util.root_pattern(
-          ".eslintrc",
-          ".eslintrc.js",
-          ".eslintrc.cjs",
-          ".eslintrc.yaml",
-          ".eslintrc.yml",
-          ".eslintrc.json"
-        ),
+      -- vim.lsp.config("ts_ls", {
+      --   root_dir = lspconfig.util.root_pattern(
+      --     ".eslintrc",
+      --     ".eslintrc.js",
+      --     ".eslintrc.cjs",
+      --     ".eslintrc.yaml",
+      --     ".eslintrc.yml",
+      --     ".eslintrc.json"
+      --   ),
+      --
+
+      vim.lsp.config("vtsls", {
+        root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+        settings = {
+          typescript = {
+            preferences = {
+              includeCompletionsForModuleExports = true,
+              importModuleSpecifier = "non-relative",
+            },
+            updateImportsOnFileMove = { enabled = "always" },
+          },
+          vtsls = {
+            experimental = {
+              completion = {
+                enableServerSideFuzzyMatch = true,
+                entriesLimit = 100,
+              },
+            },
+          },
+        },
       })
 
       vim.lsp.config("yamlls", {
@@ -85,7 +107,8 @@ return {
             },
             schemas = {
               kubernetes = "*.k8s.yaml",
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.yml",
+              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
+              "docker-compose*.yml",
             },
             validate = true,
             completion = true,
@@ -144,7 +167,7 @@ return {
       })
 
       local ensure_installed = {
-        "gopls",
+        -- "gopls",
         "terraformls",
         "ts_ls",
         "vtsls",
@@ -159,7 +182,7 @@ return {
         "dockerls",
         "docker_compose_language_service",
         "eslint",
-        "spectral",
+        -- "spectral",
         "vacuum",
         "yamlls",
         "prismals",
@@ -172,8 +195,6 @@ return {
         ensure_installed = ensure_installed,
         automatic_installation = true,
       })
-
-      vim.lsp.enable(ensure_installed)
     end,
   },
   {
@@ -255,7 +276,7 @@ return {
 --           '.eslintrc.json'
 --             -- Disabled to prevent "No ESLint configuration found" exceptions
 --             -- 'package.json',
---           ), 
+--           ),
 --       })
 --
 --       -- lspconfig.ts_ls.setup({
@@ -268,10 +289,10 @@ return {
 --       --     '.eslintrc.json'
 --       --       -- Disabled to prevent "No ESLint configuration found" exceptions
 --       --       -- 'package.json',
---       --     ), 
+--       --     ),
 --       -- })
 --       --
---       
+--
 --       vim.lsp.config("dcmls", {
 --        	capabilities = capabilities,
 --        	cmd = {
