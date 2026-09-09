@@ -193,7 +193,7 @@ return {
 
       mason_lspconfig.setup({
         ensure_installed = ensure_installed,
-        automatic_installation = true,
+        automatic_enable = true,
       })
     end,
   },
