@@ -51,15 +51,15 @@ return {
           vim.keymap.set("n", "gk", vim.diagnostic.goto_prev, opts)
 
           -- format on save, if the client supports it
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client:supports_method("textDocument/formatting") then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = event.buf,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = event.buf, id = client.id })
-              end,
-            })
-          end
+          -- local client = vim.lsp.get_client_by_id(event.data.client_id)
+          -- if client and client:supports_method("textDocument/formatting") then
+          --   vim.api.nvim_create_autocmd("BufWritePre", {
+          -- buffer = event.buf,
+          -- callback = function()
+          -- vim.lsp.buf.format({ bufnr = event.buf, id = client.id })
+          -- end,
+          -- })
+          -- end
         end,
       })
 
@@ -81,6 +81,7 @@ return {
         root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
         settings = {
           typescript = {
+            format = { enable = true },
             preferences = {
               includeCompletionsForModuleExports = true,
               importModuleSpecifier = "non-relative",
@@ -172,6 +173,7 @@ return {
         -- "ts_ls",
         "vtsls",
         "biome",
+        "prettier",
         "quick_lint_js",
         "html",
         "cssls",
@@ -201,6 +203,27 @@ return {
     "mrcjkb/rustaceanvim",
     version = "^5",
     lazy = true,
+    -- ft = { "rust" },
+    -- config = function()
+    --   vim.g.rustaceanvim = {
+    --     server = {
+    --       default_settings = {
+    --         ["rust-analyzer"] = {
+    --           checkOnSave = {
+    --             command = "check",
+    --             -- cargo check saver memory than clippy
+    --           },
+    --           cargo = {
+    --             loadOutDirsFromCheck = false, -- if didn't use any weird or monster macro -> set false
+    --           },
+    --           procMacro = {
+    --             enable = true, -- true on framework use, false on not use the framework
+    --           },
+    --         },
+    --       },
+    --     },
+    --   }
+    -- end,
   },
 }
 

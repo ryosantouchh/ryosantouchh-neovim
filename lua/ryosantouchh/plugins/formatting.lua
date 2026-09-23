@@ -36,6 +36,7 @@ return {
       format_on_save = {
         lsp_format = "never",
         timeout_ms = 3000,
+        lsp_fallback = true,
       },
     })
 
