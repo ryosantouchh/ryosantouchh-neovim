@@ -152,6 +152,105 @@ return {
         single_file_support = true,
       })
 
+      -- jdtls: the SERVER must run on JDK 21+, but it can compile/analyse
+      -- projects targeting older JDKs (17, 11, 8...) via java.configuration.runtimes.
+      -- Both are auto-detected from sdkman, /usr/lib/jvm, macOS JVMs and ~/.jdks.
+      -- Override the server JDK with the JDTLS_JAVA_HOME env var.
+      local function find_jdks()
+        local home_dir = vim.env.HOME or vim.fn.expand("~")
+        local patterns = {
+          home_dir .. "/.sdkman/candidates/java/*",
+          home_dir .. "/.jdks/*",
+          home_dir .. "/Library/Java/JavaVirtualMachines/*/Contents/Home",
+          "/usr/lib/jvm/*",
+          "/Library/Java/JavaVirtualMachines/*/Contents/Home",
+          "/opt/homebrew/opt/openjdk*/libexec/openjdk.jdk/Contents/Home",
+          "/usr/local/opt/openjdk*/libexec/openjdk.jdk/Contents/Home",
+        }
+        local by_major, seen = {}, {}
+        for _, pattern in ipairs(patterns) do
+          for _, home in ipairs(vim.fn.glob(pattern, false, true)) do
+            local real = vim.fn.resolve(home)
+            if not seen[real] then
+              seen[real] = true
+              local f = io.open(real .. "/release", "r")
+              if f then
+                local content = f:read("*a")
+                f:close()
+                local ver = content:match('JAVA_VERSION="([^"]+)"')
+                local major = ver and tonumber(ver:match("^1%.(%d+)") or ver:match("^(%d+)"))
+                if major and not by_major[major] then
+                  by_major[major] = real
+                end
+              end
+            end
+          end
+        end
+
+        local runtimes, server_java, server_major = {}, nil, 0
+        for major, path in pairs(by_major) do
+          table.insert(runtimes, {
+            name = major == 8 and "JavaSE-1.8" or ("JavaSE-" .. major),
+            path = path,
+          })
+          if major >= 21 and major > server_major then
+            server_java, server_major = path, major
+          end
+        end
+        table.sort(runtimes, function(a, b)
+          return a.name < b.name
+        end)
+        return runtimes, server_java
+      end
+
+      local jdk_runtimes, jdk_server = find_jdks()
+      jdk_server = vim.env.JDTLS_JAVA_HOME or jdk_server
+
+      if not jdk_server then
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = "java",
+          once = true,
+          callback = function()
+            vim.notify(
+              "jdtls needs a JDK 21+ to run and none was found. Install one or set JDTLS_JAVA_HOME.",
+              vim.log.levels.WARN
+            )
+          end,
+        })
+      end
+
+      -- Formatting is handed to google-java-format (conform), so the
+      -- built-in Eclipse formatter is switched off to avoid two styles fighting.
+      vim.lsp.config("jdtls", {
+        cmd_env = jdk_server and { JAVA_HOME = jdk_server } or nil,
+        settings = {
+          java = {
+            format = { enabled = false },
+            signatureHelp = { enabled = true },
+            contentProvider = { preferred = "fernflower" },
+            eclipse = { downloadSources = true },
+            maven = { downloadSources = true },
+            references = { includeDecompiledSources = true },
+            configuration = {
+              updateBuildConfiguration = "automatic",
+              runtimes = jdk_runtimes,
+            },
+            saveActions = { organizeImports = false },
+            completion = {
+              favoriteStaticMembers = {
+                "org.junit.jupiter.api.Assertions.*",
+                "org.mockito.Mockito.*",
+                "java.util.Objects.requireNonNull",
+                "java.util.Objects.requireNonNullElse",
+              },
+            },
+            sources = {
+              organizeImports = { starThreshold = 9999, staticStarThreshold = 9999 },
+            },
+          },
+        },
+      })
+
       -- lua_ls: point at Neovim's runtime so it understands vim.* globals
       vim.lsp.config("lua_ls", {
         settings = {
@@ -175,15 +274,16 @@ return {
         "docker_compose_language_service",
         "dockerls",
         "eslint",
-        "gopls",
+        "jdtls",
+        -- "gopls",
         "helm_ls",
         "html",
         "lua_ls",
         "prismals",
         "quick_lint_js",
-        "ruby_lsp",
+        -- "ruby_lsp",
         "rust_analyzer",
-        "spectral",
+        -- "spectral",
         "sqlls",
         "tailwindcss",
         "terraformls",
@@ -199,6 +299,43 @@ return {
         automatic_enable = true,
       })
     end,
+  },
+  -- -- Linter: checkstyle for Java
+  --   {
+  --     "mfussenegger/nvim-lint",
+  --     event = { "BufReadPost", "BufNewFile" },
+  --     config = function()
+  --       local lint = require("lint")
+  --
+  --       lint.linters_by_ft = lint.linters_by_ft or {}
+  --       lint.linters_by_ft.java = { "checkstyle" }
+  --
+  --       -- Google style bundled inside the checkstyle jar. Swap for a project path
+  --       -- (e.g. vim.fn.getcwd() .. "/config/checkstyle.xml") to use your own rules.
+  --       lint.linters.checkstyle.config_file = "/google_checks.xml"
+  --
+  --       vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
+  --         group = vim.api.nvim_create_augroup("UserLint", { clear = true }),
+  --         callback = function()
+  --           lint.try_lint()
+  --         end,
+  --       })
+  --     end,
+  --   },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    event = "VeryLazy",
+    opts = {
+      ensure_installed = {
+        "google-java-format", -- Java formatter
+        "checkstyle",         -- Java linter
+        "prettierd",
+        "stylua",
+        "shfmt",
+        "taplo",
+      },
+    },
   },
   {
     "mrcjkb/rustaceanvim",
