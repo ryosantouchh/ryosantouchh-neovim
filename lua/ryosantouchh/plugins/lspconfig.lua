@@ -46,6 +46,7 @@ return {
           vim.keymap.set({ "n", "x" }, "<F3>", function()
             vim.lsp.buf.format({ async = true })
           end, opts)
+          vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
           vim.keymap.set("n", "gx", vim.lsp.buf.code_action, opts)
           vim.keymap.set("n", "gj", vim.diagnostic.goto_next, opts)
           vim.keymap.set("n", "gk", vim.diagnostic.goto_prev, opts)
