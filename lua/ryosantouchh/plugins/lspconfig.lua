@@ -1,6 +1,6 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     lazy = true,
     config = true,
   },
@@ -10,8 +10,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       -- { "hrsh7th/cmp-nvim-lsp" },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "simrat39/rust-tools.nvim" },
+      { "mason-org/mason-lspconfig.nvim" },
     },
     config = function()
       local lspconfig = require("lspconfig")
@@ -149,7 +148,7 @@ return {
       vim.lsp.config("solidity", {
         cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
         filetypes = { "solidity" },
-        root_dir = lspconfig.util.find_git_ancestor,
+        root_markers = { ".git" },
         single_file_support = true,
       })
 
@@ -222,7 +221,14 @@ return {
 
       -- Formatting is handed to google-java-format (conform), so the
       -- built-in Eclipse formatter is switched off to avoid two styles fighting.
+      local lombok = vim.fn.stdpath("data") .. "/mason/packages/jdtls/lombok.jar"
+      local project = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
       vim.lsp.config("jdtls", {
+        cmd = {
+          "jdtls",
+          "--jvm-arg=-javaagent:" .. lombok,
+          "-data", vim.fn.stdpath("cache") .. "/jdtls/" .. project,
+        },
         cmd_env = jdk_server and { JAVA_HOME = jdk_server } or nil,
         settings = {
           java = {
@@ -325,7 +331,7 @@ return {
   --   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     event = "VeryLazy",
     opts = {
       ensure_installed = {
@@ -338,32 +344,32 @@ return {
       },
     },
   },
-  {
-    "mrcjkb/rustaceanvim",
-    version = "^5",
-    lazy = true,
-    -- ft = { "rust" },
-    -- config = function()
-    --   vim.g.rustaceanvim = {
-    --     server = {
-    --       default_settings = {
-    --         ["rust-analyzer"] = {
-    --           checkOnSave = {
-    --             command = "check",
-    --             -- cargo check saver memory than clippy
-    --           },
-    --           cargo = {
-    --             loadOutDirsFromCheck = false, -- if didn't use any weird or monster macro -> set false
-    --           },
-    --           procMacro = {
-    --             enable = true, -- true on framework use, false on not use the framework
-    --           },
-    --         },
-    --       },
-    --     },
-    --   }
-    -- end,
-  },
+  -- {
+  --   "mrcjkb/rustaceanvim",
+  --   version = "^5",
+  --   lazy = true,
+  -- ft = { "rust" },
+  -- config = function()
+  --   vim.g.rustaceanvim = {
+  --     server = {
+  --       default_settings = {
+  --         ["rust-analyzer"] = {
+  --           checkOnSave = {
+  --             command = "check",
+  --             -- cargo check saver memory than clippy
+  --           },
+  --           cargo = {
+  --             loadOutDirsFromCheck = false, -- if didn't use any weird or monster macro -> set false
+  --           },
+  --           procMacro = {
+  --             enable = true, -- true on framework use, false on not use the framework
+  --           },
+  --         },
+  --       },
+  --     },
+  --   }
+  -- end,
+  -- },
 }
 
 -- return {
